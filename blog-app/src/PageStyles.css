@@ -1,0 +1,118 @@
+/* UNIVERSAL PAGE WRAPPER */
+.page-container {
+  font-family: "Inter", sans-serif;
+}
+
+/* GRADIENT HEADER */
+.hero-section {
+  padding: 80px 20px;
+  text-align: center;
+  background: linear-gradient(to bottom right, #eef2ff, #ffffff);
+}
+
+.hero-title {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: #555;
+}
+
+/* MAIN CONTENT AREA */
+.content-section {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 10px;
+}
+
+/* BLOG LIST LAYOUT */
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* BLOG CARD */
+.card {
+  background: white;
+  padding: 25px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  text-decoration: none;
+  color: black;
+  display: block;
+  width: 100%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.card-body {
+  margin-bottom: 12px;
+  color: #444;
+}
+
+.card-link {
+  font-weight: 600;
+  color: #333;
+}
+
+/* FOR FORMS */
+.form-card {
+  background: white;
+  padding: 25px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-field,
+.textarea-field {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.textarea-field {
+  height: 150px;
+  resize: vertical;
+}
+
+/* BUTTON */
+.primary-btn {
+  padding: 12px 18px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-btn:hover {
+  opacity: 0.8;
+}
+
+/* EMPTY MESSAGE */
+.empty-text {
+  text-align: center;
+  color: #777;
+  margin-top: 40px;
+}
+

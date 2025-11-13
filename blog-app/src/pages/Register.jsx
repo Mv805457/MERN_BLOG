@@ -1,38 +1,39 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import API from "../api/axios";
+import React, { useState } from "react";
+import axios from "../api/axios";
+import "../PageStyles.css";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [msg, setMsg] = useState("");
-  const { login } = useAuth();
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await API.post("/users/register", { name, email, password });
-      login(data.token);
-      setMsg("Registered successfully!");
-      setTimeout(() => navigate("/"), 1500);
-    } catch (err) {
-      setMsg(err.response?.data?.message || "Failed");
-    }
+    await axios.post("/auth/register", { name, email, password });
+    alert("Registered successfully!");
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-96 space-y-4">
-        <h2 className="text-2xl font-bold text-center">Register</h2>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" className="border p-2 w-full rounded" />
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="border p-2 w-full rounded" />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="border p-2 w-full rounded" />
-        <button className="bg-black text-white w-full py-2 rounded">Register</button>
-        {msg && <p className="text-center text-sm text-gray-500">{msg}</p>}
-      </form>
+    <div className="page-container">
+      <div className="hero-section">
+        <h1 className="hero-title">Register</h1>
+        <p className="hero-subtitle">Create your account</p>
+      </div>
+
+      <div className="content-section">
+        <form className="form-card" onSubmit={registerUser}>
+          <label>Name</label>
+          <input className="input-field" value={name} onChange={(e) => setName(e.target.value)} />
+
+          <label>Email</label>
+          <input className="input-field" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+          <label>Password</label>
+          <input type="password" className="input-field" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+          <button className="primary-btn">Register</button>
+        </form>
+      </div>
     </div>
   );
 }

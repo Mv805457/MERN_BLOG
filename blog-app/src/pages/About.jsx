@@ -1,19 +1,23 @@
 import React from "react";
+import "../PageStyles.css";
 
 export default function About() {
   return (
-    <section className="pt-24 pb-16">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-          <h2 className="text-2xl font-bold mb-4">About MyBlog</h2>
-          <p className="text-gray-700 mb-4">
-            MyBlog is a simple, modern blog platform built for the web technology project.
-            It includes post creation, editing, listing, and user profile pages. Built with React, Vite and Tailwind.
+    <div className="page-container">
+      <div className="hero-section">
+        <h1 className="hero-title">About This Project</h1>
+        <p className="hero-subtitle">Learn more about the purpose and the team.</p>
+      </div>
+
+      <div className="content-section">
+        <div className="card">
+          <p className="full-text">
+            This Blog App was built using the MERN stack — MongoDB, Express, React, and Node.js.
+            It allows users to create, edit, view, and manage blogs with a clean modern UI.
           </p>
-          <p className="text-gray-600 text-sm">Team: PES1UG24CS252, 254, 256</p>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

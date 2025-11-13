@@ -1,26 +1,48 @@
-import { useEffect, useState } from "react";
-import API from "../api/axios";
+import React, { useEffect, useState } from "react";
+import axios from "../api/axios";
+import { Link } from "react-router-dom";
+import "../PageStyles.css";
 
 export default function AllBlogs() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      const { data } = await API.get("/blogs");
-      setBlogs(data);
-    };
-    fetchBlogs();
+    axios.get("/blogs").then((res) => setBlogs(res.data));
   }, []);
 
   return (
-    <div className="p-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {blogs.map((b) => (
-        <div key={b._id} className="border rounded p-4 shadow hover:shadow-lg">
-          <h2 className="font-bold text-xl">{b.title}</h2>
-          <p className="text-gray-700 mt-2">{b.content.substring(0, 100)}...</p>
-          <p className="text-sm text-gray-500 mt-2">By {b.user?.name || "Anonymous"}</p>
-        </div>
-      ))}
+    <div className="page-container">
+      
+      {/* HERO SECTION */}
+      <div className="hero-section">
+        <h1 className="hero-title">All Blogs</h1>
+        <p className="hero-subtitle">
+          Browse all blog posts from our community.
+        </p>
+      </div>
+
+      {/* CONTENT */}
+      <div className="content-section">
+        {blogs.length === 0 ? (
+          <p className="empty-text">No blogs available.</p>
+        ) : (
+          <div className="blog-list">
+            {blogs.map((blog) => (
+              <Link 
+                key={blog._id} 
+                to={`/blogs/${blog._id}`} 
+                className="card"
+              >
+                <h2 className="card-title">{blog.title}</h2>
+                <p className="card-body">
+                  {blog.content.substring(0, 120)}...
+                </p>
+                <span className="card-link">Read More →</span>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

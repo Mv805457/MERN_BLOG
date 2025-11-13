@@ -1,0 +1,49 @@
+.navbar {
+  width: 100%;
+  padding: 20px 40px;
+  background: #ffffffcc;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo Gradient */
+.gradient-logo {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #000, #777);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+
+.nav-right {
+  display: flex;
+  gap: 28px;
+}
+
+/* Every navbar link (including Login & Register) */
+.nav-item {
+  color: #444;
+  font-size: 16px;
+  text-decoration: none !important; /* Important fix */
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.nav-item:hover {
+  color: black;
+  transform: translateY(-2px);
+}
+
+.nav-item.active {
+  color: black;
+  font-weight: 700;
+}
+

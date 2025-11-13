@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../api/axios";
+import { useParams, Link } from "react-router-dom";
+import "./PageStyles.css";
 
 export default function ViewBlog() {
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
+
+  useEffect(() => {
+    axios.get(`/blogs/${id}`).then((res) => setBlog(res.data));
+  }, [id]);
+
+  if (!blog) return <p>Loading...</p>;
+
   return (
-    <div className="pt-24 pb-20">
-      <div className="max-w-5xl mx-auto px-6">
-        <article className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-          <h1 className="text-3xl font-bold mb-3">Sample Article Title</h1>
-          <div className="text-sm text-gray-500 mb-6">by Abhijith • Apr 15 • 5 min read</div>
-          <img className="w-full rounded-lg mb-6" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=60" alt="cover" />
-          <div className="prose max-w-none text-gray-700">
-            <p>This is a demo article. Replace with real post content from your API.</p>
-            <p>Use markdown renderer or rich text HTML to display content here.</p>
-          </div>
-        </article>
+    <div className="page-container">
+      <div className="hero-section">
+        <h1 className="hero-title">{blog.title}</h1>
+        <p className="hero-subtitle">By {blog.author}</p>
+      </div>
+
+      <div className="content-section">
+        <div className="card">
+          <p className="full-text">{blog.content}</p>
+          <Link to={`/edit/${blog._id}`} className="primary-btn">Edit Blog</Link>
+        </div>
       </div>
     </div>
   );
