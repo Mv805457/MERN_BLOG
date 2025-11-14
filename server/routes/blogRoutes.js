@@ -17,4 +17,3 @@ router.put("/:id", protect, updateBlog);
 router.delete("/:id", protect, deleteBlog);
 
 export default router;
-
