@@ -239,4 +239,66 @@ body {
   opacity: 0.98;
 }
 
+/* Home Hero Background */
+.hero-bg {
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #eef2ff, #ffffff);
+  padding: 80px 20px;
+  position: relative;
+}
+
+/* Inner content wrapper so hero-bg doesn't overlay */
+.page {
+  max-width: 900px;
+  text-align: center;
+  z-index: 1;
+  position: relative;
+  pointer-events: auto;
+}
+
+/* Home Title */
+.hero-title {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+/* Home Subtitle */
+.hero-sub {
+  font-size: 20px;
+  color: #444;
+  margin-bottom: 28px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Hero CTA Button */
+.hero-btn {
+  padding: 12px 24px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.hero-btn:hover {
+  opacity: 0.85;
+}
+
+/* Safety fix: ensure hero doesn't block clicks on other pages */
+.hero-bg {
+  pointer-events: none;
+}
+
+.hero-bg .page {
+  pointer-events: auto;
+}
 

@@ -9,32 +9,35 @@
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 10;
 }
 
-/* Logo Gradient */
-.gradient-logo {
+/* Logo */
+.nav-logo {
   font-size: 26px;
-  font-weight: 800;
-  background: linear-gradient(90deg, #000, #777);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
   text-decoration: none;
+  color: #111;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
+.logo-bold {
+  font-weight: 800;
+}
+
+/* Navigation */
 .nav-right {
   display: flex;
-  gap: 28px;
+  gap: 26px;
 }
 
-/* Every navbar link (including Login & Register) */
 .nav-item {
-  color: #444;
   font-size: 16px;
-  text-decoration: none !important; /* Important fix */
+  color: #444;
+  text-decoration: none;
   font-weight: 500;
-  transition: 0.2s ease;
+  transition: .2s ease;
 }
 
 .nav-item:hover {
