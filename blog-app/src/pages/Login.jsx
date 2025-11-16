@@ -8,19 +8,21 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("/users/login", { email, password });
-      // Store token
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      alert("Logged in successfully!");
-      navigate("/");
-    } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
-    }
-  };
+const loginUser = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post("/users/login", { email, password });
+
+    // Save CORRECT values
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+
+    alert("Logged in successfully!");
+    navigate("/");
+  } catch (error) {
+    alert(error.response?.data?.message || "Login failed");
+  }
+};
 
   return (
     <div className="page-container">

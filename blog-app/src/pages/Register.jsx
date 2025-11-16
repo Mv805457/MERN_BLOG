@@ -14,8 +14,9 @@ export default function Register() {
     try {
       const response = await axios.post("/users/register", { name, email, password });
       // Store token
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data));
+localStorage.setItem("token", res.data.token);
+localStorage.setItem("user", JSON.stringify(res.data.user));
+
       alert("Registered successfully!");
       navigate("/");
     } catch (error) {

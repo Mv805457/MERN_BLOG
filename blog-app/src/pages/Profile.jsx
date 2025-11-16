@@ -8,17 +8,18 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    // Fetch user profile
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    // Fetch profile
     axios.get("/users/profile")
       .then((res) => setUser(res.data))
       .catch((err) => console.error("Failed to fetch profile:", err));
 
-    // Fetch user's blogs
+    // Fetch all blogs
     axios.get("/blogs")
       .then((res) => {
-        // Filter blogs by current user
-        const userBlogs = res.data.filter(blog => 
-          blog.user?._id === JSON.parse(localStorage.getItem("user") || "{}")._id
+        const userBlogs = res.data.filter(
+          blog => blog.user?._id === storedUser._id
         );
         setBlogs(userBlogs);
       })
@@ -69,3 +70,4 @@ export default function Profile() {
     </div>
   );
 }
+
