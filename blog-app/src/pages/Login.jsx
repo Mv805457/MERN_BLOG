@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
 import "../PageStyles.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const loginUser = async (e) => {
     e.preventDefault();
-    await axios.post("/auth/login", { email, password });
-    alert("Logged in!");
+    try {
+      const response = await axios.post("/users/login", { email, password });
+      // Store token
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      alert("Logged in successfully!");
+      navigate("/");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login failed");
+    }
   };
 
   return (
@@ -22,15 +32,26 @@ export default function Login() {
       <div className="content-section">
         <form className="form-card" onSubmit={loginUser}>
           <label>Email</label>
-          <input className="input-field" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input 
+            type="email"
+            className="input-field" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
           <label>Password</label>
-          <input type="password" className="input-field" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input 
+            type="password" 
+            className="input-field" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-          <button className="primary-btn">Login</button>
+          <button className="primary-btn" type="submit">Login</button>
         </form>
       </div>
     </div>
   );
 }
-
