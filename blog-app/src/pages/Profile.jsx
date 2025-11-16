@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
+import API from "../api/axios";   // FIXED — must be API
 import { Link } from "react-router-dom";
 import "../PageStyles.css";
 
@@ -8,22 +8,30 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const fetchData = async () => {
+      try {
+        // Fetch user profile (needs token)
+        const res = await API.get("/users/profile");
+        setUser(res.data);
 
-    // Fetch profile
-    axios.get("/users/profile")
-      .then((res) => setUser(res.data))
-      .catch((err) => console.error("Failed to fetch profile:", err));
-
-    // Fetch all blogs
-    axios.get("/blogs")
-      .then((res) => {
-        const userBlogs = res.data.filter(
-          blog => blog.user?._id === storedUser._id
+        // Fetch ALL blogs
+        const blogRes = await API.get("/blogs");
+        
+        // Filter only user's blogs
+        const userId = res.data._id;
+        const userBlogs = blogRes.data.filter(
+          (blog) => blog.user?._id === userId
         );
+
         setBlogs(userBlogs);
-      })
-      .catch((err) => console.error("Failed to fetch blogs:", err));
+
+      } catch (err) {
+        console.error("Profile Error:", err.response?.data || err);
+        alert("Failed to load profile. Please login again.");
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (!user) {
@@ -40,7 +48,7 @@ export default function Profile() {
     <div className="page-container">
       <div className="hero-section">
         <h1 className="hero-title">My Profile</h1>
-        <p className="hero-subtitle">Your information and your blog posts.</p>
+        <p className="hero-subtitle">Your info & your blogs</p>
       </div>
 
       <div className="content-section">
@@ -49,7 +57,7 @@ export default function Profile() {
           <p className="card-body">{user.email}</p>
         </div>
 
-        <h2 style={{ fontSize: "24px", fontWeight: 700, marginTop: "40px", marginBottom: "20px" }}>
+        <h2 style={{ fontSize: "24px", fontWeight: 700, marginTop: "40px" }}>
           My Blogs
         </h2>
 

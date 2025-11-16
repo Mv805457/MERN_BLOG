@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "../api/axios";
+import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import "../PageStyles.css";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -11,16 +10,22 @@ export default function Register() {
 
   const registerUser = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post("/users/register", { name, email, password });
-      // Store token
-localStorage.setItem("token", res.data.token);
-localStorage.setItem("user", JSON.stringify(res.data.user));
+      const res = await API.post("/users/register", {
+        name,
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data));
 
       alert("Registered successfully!");
-      navigate("/");
-    } catch (error) {
-      alert(error.response?.data?.message || "Registration failed");
+      navigate("/login");
+    } catch (err) {
+      alert(err.response?.data?.message || "Registration failed");
+      console.error("REG ERROR:", err);
     }
   };
 
@@ -34,34 +39,37 @@ localStorage.setItem("user", JSON.stringify(res.data.user));
       <div className="content-section">
         <form className="form-card" onSubmit={registerUser}>
           <label>Name</label>
-          <input 
-            className="input-field" 
-            value={name} 
+          <input
+            className="input-field"
+            value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
 
           <label>Email</label>
-          <input 
+          <input
             type="email"
-            className="input-field" 
-            value={email} 
+            className="input-field"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
 
           <label>Password</label>
-          <input 
-            type="password" 
-            className="input-field" 
-            value={password} 
+          <input
+            type="password"
+            className="input-field"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
 
-          <button className="primary-btn" type="submit">Register</button>
+          <button className="primary-btn" type="submit">
+            Register
+          </button>
         </form>
       </div>
     </div>
   );
 }
+
