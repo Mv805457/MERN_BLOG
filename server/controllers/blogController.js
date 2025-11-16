@@ -16,12 +16,14 @@ export const getBlogById = async (req, res) => {
 // CREATE
 export const createBlog = async (req, res) => {
   const { title, content, tags } = req.body;
+
   const blog = await Blog.create({
     user: req.user._id,
     title,
     content,
-    tags
+    tags: tags ?? []
   });
+
   const populated = await blog.populate("user", "name email");
   res.status(201).json(populated);
 };
@@ -29,6 +31,7 @@ export const createBlog = async (req, res) => {
 // UPDATE
 export const updateBlog = async (req, res) => {
   const { title, content, tags } = req.body;
+
   const blog = await Blog.findById(req.params.id);
   if (!blog) return res.status(404).json({ message: "Blog not found" });
 
@@ -40,6 +43,7 @@ export const updateBlog = async (req, res) => {
   blog.title = title ?? blog.title;
   blog.content = content ?? blog.content;
   blog.tags = tags ?? blog.tags;
+
   await blog.save();
   const populated = await blog.populate("user", "name email");
   res.json(populated);
@@ -49,9 +53,12 @@ export const updateBlog = async (req, res) => {
 export const deleteBlog = async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   if (!blog) return res.status(404).json({ message: "Blog not found" });
+
   if (blog.user.toString() !== req.user._id.toString()) {
     return res.status(403).json({ message: "Not authorized" });
   }
+
   await blog.deleteOne();
   res.json({ message: "Blog deleted" });
 };
+
