@@ -7,47 +7,26 @@ export default function AllBlogs() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    API.get("/blogs").then((res) => setBlogs(res.data));
+    API.get("/blogs").then(res => setBlogs(res.data)).catch(()=>{});
   }, []);
 
   return (
     <div className="page">
-      <h1 className="section-title" style={{ textAlign: "center" }}>All Blogs</h1>
-      <p className="subtext" style={{ textAlign: "center", marginBottom: "40px" }}>
-        Browse all blog posts from our community.
-      </p>
+      <div className="container">
+        <h1 className="section-title" style={{textAlign:"center"}}>All Blogs</h1>
+        <p className="subtext" style={{textAlign:"center", marginBottom:24}}>Browse posts from the community</p>
 
-      <div style={{ maxWidth: "750px", margin: "0 auto" }}>
-        {blogs.map((blog) => (
-          <Link
-            key={blog._id}
-            to={`/blogs/${blog._id}`}
-            className="card"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              marginBottom: "25px",
-              display: "block",
-            }}
-          >
-            <h2 style={{ marginBottom: "8px" }}>{blog.title}</h2>
+        <div style={{maxWidth:860, margin:"0 auto"}}>
+          {blogs.length === 0 && <p className="empty-text">No posts yet.</p>}
 
-            <p className="subtext" style={{ marginBottom: "12px" }}>
-              By {blog.user?.name || "Unknown"} •{" "}
-              {new Date(blog.createdAt).toLocaleDateString()}
-            </p>
-
-            <p style={{ fontSize: "16px", color: "#444" }}>
-              {blog.content.substring(0, 120)}...
-            </p>
-          </Link>
-        ))}
-
-        {blogs.length === 0 && (
-          <p className="subtext" style={{ textAlign: "center", marginTop: "40px" }}>
-            No blogs yet.
-          </p>
-        )}
+          {blogs.map(b => (
+            <Link key={b._id} to={`/blogs/${b._id}`} className="card" style={{display:"block", marginBottom:16}}>
+              <h3 className="card-title">{b.title}</h3>
+              <div className="card-meta">By {b.user?.name || "Unknown"} • {new Date(b.createdAt).toLocaleDateString()}</div>
+              <p style={{marginTop:8,color:"#444"}}>{b.content.substring(0,140)}...</p>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

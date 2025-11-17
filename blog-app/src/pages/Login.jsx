@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import API from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/PageStyles.css";
 
 export default function Login() {
@@ -8,38 +8,55 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = async (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     try {
       const res = await API.post("/users/login", { email, password });
-
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data));
-
       navigate("/");
-      window.location.reload();
-    } catch (err) {
-      alert("Invalid credentials");
+    } catch {
+      alert("Invalid login");
     }
   };
 
   return (
     <div className="page-center">
-      <h1 className="section-title">Welcome Back</h1>
-      <p className="subtext">Login to your account</p>
+      <div className="form-wrapper fade">
+        <h2>Welcome Back</h2>
+        <p className="form-sub">Log in to your account</p>
 
-      <form style={{ marginTop: "30px" }} onSubmit={loginUser}>
-        <input className="input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <form onSubmit={submit} className="form-column">
 
-        <input className="input" placeholder="Password" type="password"
-          onChange={(e) => setPassword(e.target.value)} />
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <button className="btn" style={{ width: "100%" }}>Login</button>
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <p className="subtext" style={{ marginTop: "10px" }}>
-          Don't have an account? <Link to="/register">Register</Link>
+          <button className="form-btn">Login</button>
+        </form>
+
+        <p className="form-alt">
+          Don’t have an account? <Link to="/register">Register</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
