@@ -8,45 +8,42 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const run = async () => {
-      try {
-        const res = await API.get("/users/profile");
-        setUser(res.data);
-        const b = await API.get("/blogs");
-        const userBlogs = b.data.filter(x => x.user?._id === res.data._id);
-        setBlogs(userBlogs);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    run();
+    API.get("/users/profile")
+      .then((res) => setUser(res.data))
+      .catch((err) => console.error("Failed to fetch profile:", err));
+
+    API.get("/blogs")
+      .then((res) => {
+        const userID = JSON.parse(localStorage.getItem("user") || "{}")._id;
+        setBlogs(res.data.filter((b) => b.user?._id === userID));
+      })
+      .catch((err) => console.error("Failed to fetch blogs:", err));
   }, []);
 
-  if(!user) return <div className="container page"><p className="empty-text">Loading...</p></div>;
+  if (!user) return <p className="loading-text">Loading...</p>;
 
   return (
-    <div className="container page">
-      <h1 className="section-title">My Profile</h1>
+    <div className="profile-page">
 
-      <div className="profile-card">
-                <img
-  src={`https://ui-avatars.com/api/?name=${user.name}&size=140&background=202534&color=fff`}
-  className="profile-avatar"
-/>
-
-        <h2 className="profile-name">{user.name}</h2>
-        <div className="profile-email">{user.email}</div>
+      <div className="profile-header">
+        <div className="profile-avatar">
+          {user.name[0].toUpperCase()}
+        </div>
+        <h1 className="profile-name">{user.name}</h1>
+        <p className="profile-email">{user.email}</p>
       </div>
 
-      <h2 className="section-title">My Blogs</h2>
+      <h2 className="profile-section-title">My Blogs</h2>
+
       {blogs.length === 0 ? (
-        <p className="empty-text">You haven't created any blogs yet.</p>
+        <p className="empty-profile-text">You haven't created any blogs yet.</p>
       ) : (
-        <div className="grid">
-          {blogs.map(b => (
-            <Link to={`/blogs/${b._id}`} key={b._id} className="card">
-              <h3 className="card-title">{b.title}</h3>
-              <div className="card-meta">Published {new Date(b.createdAt).toLocaleDateString()}</div>
+        <div className="profile-blog-list">
+          {blogs.map((blog) => (
+            <Link key={blog._id} to={`/blogs/${blog._id}`} className="profile-blog-card">
+              <h3>{blog.title}</h3>
+              <p>{blog.content.substring(0, 90)}...</p>
+              <span>Read More →</span>
             </Link>
           ))}
         </div>

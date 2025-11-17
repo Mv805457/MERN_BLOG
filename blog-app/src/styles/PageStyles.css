@@ -266,4 +266,98 @@
 
 .secondary-btn:hover {
 }
+/* ==== PROFILE PAGE ==== */
+.profile-page {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 15px;
+}
+
+/* Top Section */
+.profile-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+/* Circle Avatar */
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(145deg, #1a1f2b, #2d3545);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0 auto 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.profile-name {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  font-size: 15px;
+  color: #666;
+}
+
+/* Section Header */
+.profile-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+/* Blog Cards */
+.profile-blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.profile-blog-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e5e5e5;
+  text-decoration: none;
+  color: black;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: 0.2s ease;
+}
+
+.profile-blog-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.profile-blog-card h3 {
+  margin-bottom: 6px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.profile-blog-card span {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Empty state */
+.empty-profile-text {
+  color: #777;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.loading-text {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 18px;
+}
 
