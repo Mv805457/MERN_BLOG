@@ -1,41 +1,36 @@
-import { useEffect, useState } from "react";
-import axios from "../api/axios";
+import React, { useEffect, useState } from "react";
+import API from "../api/axios";
 import { Link } from "react-router-dom";
-import "../PageStyles.css";
+import "../styles/PageStyles.css";
 
 export default function AllBlogs() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    axios.get("/blogs")
+    API.get("/blogs")
       .then(res => setBlogs(res.data))
-      .catch(err => console.log("Failed to fetch blogs:", err));
+      .catch(err => console.error(err));
   }, []);
 
   return (
-    <div className="page-container">
+    <div className="container page">
+      <h1 className="article-title">All Blogs</h1>
+      <p className="article-meta">Browse all blog posts from our community.</p>
 
-      {/* PAGE HEADER */}
-      <div className="page-header">
-        <h1 className="page-title">All Blogs</h1>
-        <p className="page-sub">Browse all blog posts from our community.</p>
-      </div>
-
-      {/* BLOG LIST */}
-      <div className="blog-list">
-        {blogs.length === 0 && (
-          <p className="empty-text">No blogs found.</p>
-        )}
-
-        {blogs.map(blog => (
-          <Link to={`/blogs/${blog._id}`} key={blog._id} className="card">
-            <h2 className="card-title">{blog.title}</h2>
-            <p className="card-body">{blog.content.slice(0, 120)}...</p>
-
-            <span className="card-link">Read More →</span>
-          </Link>
-        ))}
-      </div>
+      {blogs.length === 0 ? (
+        <p className="empty-text">No blog posts yet.</p>
+      ) : (
+        <div className="grid">
+          {blogs.map(b => (
+            <Link to={`/blogs/${b._id}`} key={b._id} className="card">
+              <div style={{minHeight:120, background:"#f3f4f6", borderRadius:10}} />
+              <h3 className="card-title">{b.title}</h3>
+              <div className="card-meta">By {b.user?.name || "Unknown"} • {new Date(b.createdAt).toLocaleDateString()}</div>
+              <p style={{color:"var(--muted)", marginTop:8}}>{b.content.substring(0,120)}...</p>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

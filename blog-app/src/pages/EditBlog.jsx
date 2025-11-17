@@ -1,71 +1,44 @@
 import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
-import { Link } from "react-router-dom";
-import "../PageStyles.css";
+import API from "../api/axios";
+import { useParams, useNavigate } from "react-router-dom";
+import "../styles/PageStyles.css";
 
-export default function Profile() {
-  const [user, setUser] = useState(null);
-  const [blogs, setBlogs] = useState([]);
+export default function EditBlog() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   useEffect(() => {
-    // Fetch user profile
-    axios.get("/users/profile")
-      .then((res) => setUser(res.data))
-      .catch((err) => console.error("Failed to fetch profile:", err));
+    API.get(`/blogs/${id}`).then(res => {
+      setTitle(res.data.title);
+      setContent(res.data.content);
+    }).catch(err => console.error(err));
+  }, [id]);
 
-    // Fetch user's blogs
-    axios.get("/blogs")
-      .then((res) => {
-        // Filter blogs by current user
-        const userBlogs = res.data.filter(blog => 
-          blog.user?._id === JSON.parse(localStorage.getItem("user") || "{}")._id
-        );
-        setBlogs(userBlogs);
-      })
-      .catch((err) => console.error("Failed to fetch blogs:", err));
-  }, []);
-
-  if (!user) {
-    return (
-      <div className="page-container">
-        <div className="content-section">
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  const update = async (e) => {
+    e.preventDefault();
+    try {
+      await API.put(`/blogs/${id}`, { title, content });
+      navigate(`/blogs/${id}`);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update");
+    }
+  };
 
   return (
-    <div className="page-container">
-      <div className="hero-section">
-        <h1 className="hero-title">My Profile</h1>
-        <p className="hero-subtitle">Your information and your blog posts.</p>
-      </div>
+    <div className="container page">
+      <h1 className="section-title">Edit Blog</h1>
 
-      <div className="content-section">
-        <div className="card">
-          <h2 className="card-title">{user.name}</h2>
-          <p className="card-body">{user.email}</p>
+      <form className="form-card" onSubmit={update}>
+        <input className="input" placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} required />
+        <textarea className="input" placeholder="Write your blog..." value={content} onChange={e=>setContent(e.target.value)} required />
+        <div style={{display:"flex",justifyContent:"flex-end",gap:12}}>
+          <button type="submit" className="btn btn-primary">Save Changes</button>
         </div>
-
-        <h2 style={{ fontSize: "24px", fontWeight: 700, marginTop: "40px", marginBottom: "20px" }}>
-          My Blogs
-        </h2>
-
-        {blogs.length === 0 ? (
-          <p className="empty-text">You haven't created any blogs yet.</p>
-        ) : (
-          <div className="blog-list">
-            {blogs.map((blog) => (
-              <Link key={blog._id} to={`/blogs/${blog._id}`} className="card">
-                <h3 className="card-title">{blog.title}</h3>
-                <p className="card-body">{blog.content.substring(0, 100)}...</p>
-                <span className="card-link">Read More →</span>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
+      </form>
     </div>
   );
 }
+

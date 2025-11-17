@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/PageStyles.css";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -8,63 +9,55 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const registerUser = async (e) => {
+  async function registerUser(e) {
     e.preventDefault();
-
     try {
-      const res = await API.post("/users/register", {
-        name,
-        email,
-        password,
-      });
+      const res = await API.post("/users/register", { name, email, password });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data));
 
-      alert("Registered successfully!");
-      navigate("/login");
-    } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
-      console.error("REG ERROR:", err);
+      navigate("/");
+    } catch (error) {
+      alert(error.response?.data?.message || "Registration failed");
     }
-  };
+  }
 
   return (
-    <div className="page-container">
-      <div className="hero-section">
-        <h1 className="hero-title">Register</h1>
-        <p className="hero-subtitle">Create your account</p>
-      </div>
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        <h1 className="auth-title">Create Account</h1>
+        <p className="auth-sub">Join the blog community </p>
 
-      <div className="content-section">
-        <form className="form-card" onSubmit={registerUser}>
-          <label>Name</label>
+        <form onSubmit={registerUser} className="auth-form">
           <input
-            className="input-field"
+            type="text"
+            placeholder="Full Name"
+            className="auth-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
 
-          <label>Email</label>
           <input
             type="email"
-            className="input-field"
+            placeholder="Email"
+            className="auth-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
 
-          <label>Password</label>
           <input
             type="password"
-            className="input-field"
+            placeholder="Password"
+            className="auth-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
 
-          <button className="primary-btn" type="submit">
+          <button type="submit" className="auth-btn">
             Register
           </button>
         </form>

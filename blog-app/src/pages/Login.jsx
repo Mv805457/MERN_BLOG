@@ -1,59 +1,58 @@
 import React, { useState } from "react";
-import axios from "../api/axios";
+import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import "../PageStyles.css";
+import "../styles/PageStyles.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-const loginUser = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post("/users/login", { email, password });
+  const loginUser = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await API.post("/users/login", { email, password });
 
-    // Save CORRECT values
-    localStorage.setItem("token", response.data.token);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data));
 
-    alert("Logged in successfully!");
-    navigate("/");
-  } catch (error) {
-    alert(error.response?.data?.message || "Login failed");
-  }
-};
+      navigate("/");
+    } catch (err) {
+      alert("Invalid email or password.");
+    }
+  };
 
   return (
-    <div className="page-container">
-      <div className="hero-section">
-        <h1 className="hero-title">Login</h1>
-        <p className="hero-subtitle">Access your account</p>
-      </div>
+    <div className="auth-page">
+      <div className="auth-card fade-in">
+        <h2>Welcome Back </h2>
+        <p className="auth-sub">Login to your account</p>
 
-      <div className="content-section">
-        <form className="form-card" onSubmit={loginUser}>
-          <label>Email</label>
-          <input 
+        <form onSubmit={loginUser}>
+          <input
             type="email"
-            className="input-field" 
-            value={email} 
+            placeholder="Email"
+            className="auth-input"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
 
-          <label>Password</label>
-          <input 
-            type="password" 
-            className="input-field" 
-            value={password} 
+          <input
+            type="password"
+            placeholder="Password"
+            className="auth-input"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
 
-          <button className="primary-btn" type="submit">Login</button>
+          <button className="auth-btn">Login</button>
         </form>
+
+        <p className="auth-bottom">
+          Don’t have an account? <a href="/register">Register</a>
+        </p>
       </div>
     </div>
   );
 }
+

@@ -1,0 +1,196 @@
+/* NAVBAR */
+.navbar {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  margin-right: 8px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #555;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  color: #000;
+}
+
+/* Auth Buttons */
+.nav-button,
+.nav-button-outline {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.nav-button {
+  background: #000;
+  color: #fff;
+}
+
+.nav-button:hover {
+  opacity: 0.8;
+}
+
+.nav-button-outline {
+  border: 2px solid #000;
+  color: #000;
+}
+
+.nav-button-outline:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* Avatar */
+.nav-avatar img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.nav-logout {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* AUTH PAGES */
+/* AUTH PAGES */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background: #ffffff;
+}
+
+.auth-box {
+  width: 420px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.auth-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.auth-sub {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-input {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  font-size: 16px;
+  width: 100%;
+}
+
+.auth-input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.auth-btn {
+  padding: 14px;
+  background: #000;
+  color: #fff;
+  font-size: 17px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.auth-btn:hover {
+  opacity: 0.8;
+}
+
+/* Profile */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+}
+/* HOME BUTTON ROW */
+.home-btn-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+/* MAIN BUTTON */
+.hero-btn {
+  padding: 14px 26px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  background: #000;
+  transition: 0.2s ease;
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* SECOND BUTTON (OUTLINE STYLE) */
+.secondary-btn {
+  background: #ffffff;
+  color: #000;
+  border: 2px solid #000;
+}
+
+.secondary-btn:hover {
+}
+
