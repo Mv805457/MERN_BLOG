@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import API from "../api/axios";
-import { useNavigate } from "react-router-dom";
 import "../styles/PageStyles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateBlog() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
-  const submit = async (e) => {
+  const publishBlog = async (e) => {
     e.preventDefault();
-    try {
-      await API.post("/blogs", { title, content });
-      navigate("/blogs");
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.message || "Failed to create blog");
-    }
+    const res = await API.post("/blogs", { title, content });
+    navigate(`/blogs/${res.data._id}`);
   };
 
   return (
-    <div className="container page">
+    <div className="page-center">
       <h1 className="section-title">Create Blog</h1>
 
-      <form className="form-card" onSubmit={submit}>
-        <input className="input" placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} required />
-        <textarea className="input" placeholder="Write your blog..." value={content} onChange={e=>setContent(e.target.value)} required />
-        <div style={{display:"flex",justifyContent:"flex-end",gap:12}}>
-          <button type="submit" className="btn btn-primary">Publish</button>
-        </div>
+      <form style={{ marginTop: "20px" }} onSubmit={publishBlog}>
+        <input className="input" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
+        <textarea className="textarea" placeholder="Write your blog..."
+          onChange={(e) => setContent(e.target.value)} />
+
+        <button className="btn" style={{ width: "100%" }}>Publish</button>
       </form>
     </div>
   );

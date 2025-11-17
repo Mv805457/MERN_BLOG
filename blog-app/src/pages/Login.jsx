@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axios";
-import { useNavigate } from "react-router-dom";
 import "../styles/PageStyles.css";
 
 export default function Login() {
@@ -17,41 +17,29 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(res.data));
 
       navigate("/");
+      window.location.reload();
     } catch (err) {
-      alert("Invalid email or password.");
+      alert("Invalid credentials");
     }
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card fade-in">
-        <h2>Welcome Back </h2>
-        <p className="auth-sub">Login to your account</p>
+    <div className="page-center">
+      <h1 className="section-title">Welcome Back</h1>
+      <p className="subtext">Login to your account</p>
 
-        <form onSubmit={loginUser}>
-          <input
-            type="email"
-            placeholder="Email"
-            className="auth-input"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <form style={{ marginTop: "30px" }} onSubmit={loginUser}>
+        <input className="input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="auth-input"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <input className="input" placeholder="Password" type="password"
+          onChange={(e) => setPassword(e.target.value)} />
 
-          <button className="auth-btn">Login</button>
-        </form>
+        <button className="btn" style={{ width: "100%" }}>Login</button>
 
-        <p className="auth-bottom">
-          Don’t have an account? <a href="/register">Register</a>
+        <p className="subtext" style={{ marginTop: "10px" }}>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 }

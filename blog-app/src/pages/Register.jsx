@@ -9,8 +9,9 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  async function registerUser(e) {
+  const registerUser = async (e) => {
     e.preventDefault();
+
     try {
       const res = await API.post("/users/register", { name, email, password });
 
@@ -18,50 +19,25 @@ export default function Register() {
       localStorage.setItem("user", JSON.stringify(res.data));
 
       navigate("/");
-    } catch (error) {
-      alert(error.response?.data?.message || "Registration failed");
+      window.location.reload();
+    } catch (err) {
+      alert("Registration failed");
     }
-  }
+  };
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-box">
-        <h1 className="auth-title">Create Account</h1>
-        <p className="auth-sub">Join the blog community </p>
+    <div className="page-center">
+      <h1 className="section-title">Register</h1>
+      <p className="subtext">Create your account</p>
 
-        <form onSubmit={registerUser} className="auth-form">
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="auth-input"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+      <form style={{ marginTop: "30px" }} onSubmit={registerUser}>
+        <input className="input" placeholder="Name" onChange={(e) => setName(e.target.value)} />
+        <input className="input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <input className="input" placeholder="Password" type="password"
+          onChange={(e) => setPassword(e.target.value)} />
 
-          <input
-            type="email"
-            placeholder="Email"
-            className="auth-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            className="auth-input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <button type="submit" className="auth-btn">
-            Register
-          </button>
-        </form>
-      </div>
+        <button className="btn" style={{ width: "100%" }}>Register</button>
+      </form>
     </div>
   );
 }
