@@ -7,33 +7,31 @@ export default function EditBlog() {
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
   const navigate = useNavigate();
 
-  // Fetch existing blog
   useEffect(() => {
-    API.get(`/blogs/${id}`)
-      .then((res) => {
-        setTitle(res.data.title);
-        setContent(res.data.content);
-        setTags(res.data.tags?.join(", ") || "");
-      })
-      .catch((err) => console.error("Failed to load blog:", err));
+    API.get(`/blogs/${id}`).then(res => {
+      setTitle(res.data.title);
+      setContent(res.data.content);
+      setTags(res.data.tags || []);
+    });
   }, [id]);
+
+  const addTag = (e) => {
+    e.preventDefault();
+    if (!tagInput.trim()) return;
+    setTags([...tags, tagInput.trim()]);
+    setTagInput("");
+  };
 
   const submit = async (e) => {
     e.preventDefault();
     try {
-      await API.put(`/blogs/${id}`, {
-        title,
-        content,
-        tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
-      });
-
-      alert("Updated successfully!");
+      await API.put(`/blogs/${id}`, { title, content, tags });
       navigate(`/blogs/${id}`);
     } catch (err) {
-      console.log(err);
       alert("Failed to update");
     }
   };
@@ -41,39 +39,33 @@ export default function EditBlog() {
   return (
     <div className="page-center">
       <div className="form-wrapper fade">
-        <h2 className="form-title">Edit Blog</h2>
+        <h2 style={{ textAlign: "center", marginBottom: 8 }}>Edit Blog</h2>
 
         <form onSubmit={submit} className="form-row">
-
           <label className="form-label">Title</label>
-          <input
-            className="form-input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter blog title"
-            required
-          />
+          <input className="form-input" value={title} onChange={e=>setTitle(e.target.value)} required />
 
           <label className="form-label">Content</label>
-          <textarea
-            className="form-textarea"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your blog..."
-            required
-          />
+          <textarea className="form-textarea" value={content} onChange={e=>setContent(e.target.value)} required />
 
-          <label className="form-label">Tags (comma separated)</label>
-          <input
-            className="form-input"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="news, tech, web"
-          />
+          <label className="form-label">Tags</label>
+          <div className="tag-row">
+            <input
+              className="form-input"
+              placeholder="Add tag"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+            />
+            <button className="tag-add-btn" onClick={addTag}>+</button>
+          </div>
 
-          <button className="form-btn" type="submit">
-            Save Changes
-          </button>
+          <div className="tag-display">
+            {tags.map((tag, i) => (
+              <span key={i} className="tag-pill">#{tag}</span>
+            ))}
+          </div>
+
+          <button className="form-btn" type="submit">Save changes</button>
         </form>
       </div>
     </div>

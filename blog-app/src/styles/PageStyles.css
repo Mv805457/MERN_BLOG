@@ -353,4 +353,20 @@ body{
   flex-direction: column;
   gap: 6px;
 }
+.search-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  background: #f9fafb;
+  transition: 0.2s ease;
+}
+
+.search-input:focus {
+  background: #fff;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px #e0e7ff;
+  outline: none;
+}
 

@@ -26,7 +26,6 @@ export default function Navbar() {
 
         {/* LEFT — LOGO */}
         <Link to="/" className="nav-logo">
-          <span className="logo-dot" />
           BlogApp
         </Link>
 
